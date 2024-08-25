@@ -1,0 +1,75 @@
+import java.util.Scanner;
+
+public class ATM {
+private double balance = 1000.00; // Initial balance
+private int pin = 1234; // PIN for authentication
+private boolean authenticated = false; // Authentication status
+
+public void authenticate(int enteredPin) {
+authenticated = (enteredPin == pin);
+}
+
+public void checkBalance() {
+if (authenticated) {
+System.out.println("Your balance is: $" + balance);
+} else {
+System.out.println("Authentication required.");
+}
+}
+
+public void withdraw(double amount) {
+if (authenticated) {
+if (amount <= balance) {
+balance -= amount;
+System.out.println("Withdrew $" + amount);
+} else {
+System.out.println("Insufficient funds.");
+}
+} else {
+System.out.println("Authentication required.");
+}
+}
+
+public void deposit(double amount) {
+if (authenticated) {
+balance += amount;
+System.out.println("Deposited $" + amount);
+} else {
+System.out.println("Authentication required.");
+}
+}
+
+public static void main(String[] args) {
+Scanner rj = new Scanner(System.in);
+ATM atm = new ATM();
+
+System.out.print("Enter PIN: ");
+int pin = rj.nextInt();
+atm.authenticate(pin);
+
+System.out.println("1. Check Balance");
+System.out.println("2. Withdraw");
+System.out.println("3. Deposit");
+System.out.print("Choose an option: ");
+int choice = rj.nextInt();
+
+switch (choice) {
+case 1:
+atm.checkBalance();
+break;
+case 2:
+System.out.print("Enter amount to withdraw: $");
+double withdrawAmount = rj.nextDouble();
+atm.withdraw(withdrawAmount);
+break;
+case 3:
+System.out.print("Enter amount to deposit: $");
+double depositAmount = rj.nextDouble();
+atm.deposit(depositAmount);
+break;
+default:
+System.out.println("Invalid option.");
+break;
+}
+}
+}
